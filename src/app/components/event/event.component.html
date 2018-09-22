@@ -1,0 +1,32 @@
+<ng-container *ngIf="!event">
+    <mat-progress-spinner></mat-progress-spinner>
+</ng-container>
+<ng-container *ngIf="event">
+    <mat-card class="mat-card">
+        <mat-card-header>
+            <div mat-card-avatar style.background-image="url({{event.poster}})" class="mat-card-avatar"></div>
+            <h1>{{event.title}}</h1>
+        </mat-card-header>
+    
+        <div class="mat-card-date">
+            <mat-icon>event</mat-icon>
+            <span>{{event.start_at}} - {{event.end_at}}</span>
+    
+            <mat-icon>place</mat-icon>
+            <span>{{event.venue}}</span>
+        </div>
+    
+        <p>{{event.description}}</p>
+        
+        <mat-card-actions>
+            <div class="add_to_favorite">
+                <mat-icon>local_play</mat-icon>
+                <span>{{event.price}}</span>
+            </div>
+            <div class="add_to_favorite" (click)="addToFavorite(event.id)">
+                <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>
+                {{event.is_favorite?'Remove from favorites':'Add to favorites'}}
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</ng-container>

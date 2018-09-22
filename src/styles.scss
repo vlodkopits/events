@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+.events-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mat-card {
+    width: 400px;
+    max-width: 500px;
+    margin: 5px;
+
+    mat-card-header {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+        .mat-card-avatar {
+            height: 80px;
+            width: 80px;
+            background-size: cover;
+        }
+    }
+
+    .mat-card-date {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #f2f2f2;
+        padding: 10px 0;
+        margin: 5px 0;
+    }
+
+    mat-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-top: 1px solid #f2f2f2;
+
+        .add_to_favorite {
+            display: flex;
+            align-items: center;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+

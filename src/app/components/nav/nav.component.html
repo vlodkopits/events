@@ -1,0 +1,15 @@
+<nav mat-tab-nav-bar color="primary" backgroundColor="primary">
+  <a routerLink="/" mat-tab-link disabled>EVENTS</a>
+  <a routerLink="/events" routerLinkActive #list="routerLinkActive" [active]="list.isActive" mat-tab-link>
+    <mat-icon active="true">list</mat-icon>
+  </a>
+  <a routerLink="/map" routerLinkActive #location_on="routerLinkActive" [active]="location_on.isActive" mat-tab-link>
+    <mat-icon>location_on</mat-icon>
+  </a>
+  <a routerLink="/favorites" routerLinkActive #start_rate="routerLinkActive" [active]="start_rate.isActive" mat-tab-link>
+    <mat-icon>start_rate</mat-icon>
+  </a>
+  <a (click)="openDialog()" mat-tab-link>
+    <mat-icon>filter_list</mat-icon>
+  </a>
+</nav>

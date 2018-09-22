@@ -1,0 +1,13 @@
+<ng-container *ngIf="!categories">
+    <mat-progress-spinner></mat-progress-spinner>
+</ng-container>
+<ng-container *ngIf="categories">
+    <h2>Select category:</h2>
+    <form #filterForm="ngForm" (ngSubmit)="setFilter(filterForm.form.controls)">
+        <div *ngFor="let category of categories">
+            <mat-checkbox name="{{category.title}}" [(ngModel)]="category.checked">{{category.title}}</mat-checkbox>
+        </div>
+        <button mat-raised-button (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Ok</button>
+    </form>
+</ng-container>
