@@ -5,7 +5,7 @@
     <h2>Select category:</h2>
     <form #filterForm="ngForm" (ngSubmit)="setFilter()">
         <div *ngFor="let category of categories">
-            <mat-checkbox name="{{category.title}}" [checked]="category.checked" #checked>
+            <mat-checkbox name="{{category.title}}" [(ngModel)]="category.checked" #checked>
                 {{category.title}}
             </mat-checkbox>
         </div>

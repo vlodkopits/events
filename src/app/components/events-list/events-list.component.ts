@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventsService } from '../../services/events.service';
 import { Event } from '../../models/event';
+import { FilterComponent } from '../../components/filter/filter.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-events-list',
@@ -10,9 +12,11 @@ import { Event } from '../../models/event';
 export class EventsListComponent implements OnInit {
   public events: Event[];
   public event: Event;
+  public categories;
 
   constructor(
     private eventsService: EventsService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -25,6 +29,17 @@ export class EventsListComponent implements OnInit {
         this.eventsService.setEventsStorage('events', this.events);
       });
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(FilterComponent, {
+      width: '350px',
+      data: { categories: [] }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.categories = result;
+    });
   }
 
   getEvent(id: string) {

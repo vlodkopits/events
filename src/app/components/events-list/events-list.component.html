@@ -2,8 +2,13 @@
     <mat-progress-spinner></mat-progress-spinner>
 </ng-container>
 <ng-container *ngIf="events">
+  <button mat-icon-button (click)="openDialog()">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+
   <div class="events-list">
-    <mat-card *ngFor="let event of events" class="mat-card">
+
+    <mat-card *ngFor="let event of events | filter : categories" class="mat-card">
       <mat-card-header>
         <div mat-card-avatar style.background-image="url({{event.poster ? event.poster: '../assets/images/noimage.png'}})" class="mat-card-avatar"></div>
         <h1 routerLink="/event/{{event.id}}">{{event.title}}</h1>
@@ -20,7 +25,7 @@
       <p>{{event.description}}</p>
       
       <mat-card-actions>
-        <div class="add_to_favorite">
+        <div class="event_price">
           <mat-icon>local_play</mat-icon>
           <span>{{event.price}}</span>
         </div>

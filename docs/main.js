@@ -139,12 +139,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/filter/filter.component */ "./src/app/components/filter/filter.component.ts");
 /* harmony import */ var _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/event/event.component */ "./src/app/components/event/event.component.ts");
 /* harmony import */ var _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/add/add.component */ "./src/app/components/add/add.component.ts");
+/* harmony import */ var _pipes_filter_pipe__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pipes/filter.pipe */ "./src/app/pipes/filter.pipe.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -183,7 +185,8 @@ var AppModule = /** @class */ (function () {
                 _components_favorites_favorites_component__WEBPACK_IMPORTED_MODULE_12__["FavoritesComponent"],
                 _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_13__["FilterComponent"],
                 _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__["EventComponent"],
-                _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__["AddComponent"]
+                _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__["AddComponent"],
+                _pipes_filter_pipe__WEBPACK_IMPORTED_MODULE_16__["FilterPipe"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -204,7 +207,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatNativeDateModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatSelectModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes, { useHash: true })
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes)
             ],
             providers: [
                 _services_events_service__WEBPACK_IMPORTED_MODULE_7__["EventsService"],
@@ -325,7 +328,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!event\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"event\">\n    <mat-card class=\"mat-card\">\n        <mat-card-header>\n            <div mat-card-avatar style.background-image=\"url({{event.poster}})\" class=\"mat-card-avatar\"></div>\n            <h1>{{event.title}}</h1>\n        </mat-card-header>\n    \n        <div class=\"mat-card-date\">\n            <mat-icon>event</mat-icon>\n            <span>{{event.start_at}} - {{event.end_at}}</span>\n    \n            <mat-icon>place</mat-icon>\n            <span>{{event.venue}}</span>\n        </div>\n    \n        <p>{{event.description}}</p>\n        \n        <mat-card-actions>\n            <div class=\"add_to_favorite\">\n                <mat-icon>local_play</mat-icon>\n                <span>{{event.price}}</span>\n            </div>\n            <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n                <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n                {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n            </div>\n        </mat-card-actions>\n    </mat-card>\n</ng-container>\n"
+module.exports = "<ng-container *ngIf=\"!event\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"event\">\n    <mat-card class=\"mat-card\">\n        <mat-card-header>\n            <div mat-card-avatar style.background-image=\"url({{event.poster}})\" class=\"mat-card-avatar\"></div>\n            <h1>{{event.title}}</h1>\n        </mat-card-header>\n    \n        <div class=\"mat-card-date\">\n            <mat-icon>event</mat-icon>\n            <span>{{event.start_at}} - {{event.end_at}}</span>\n    \n            <mat-icon>place</mat-icon>\n            <span>{{event.venue}}</span>\n        </div>\n    \n        <p>{{event.description}}</p>\n        \n        <mat-card-actions>\n            <div class=\"event_price\">\n                <mat-icon>local_play</mat-icon>\n                <span>{{event.price}}</span>\n            </div>\n            <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n                <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n                {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n            </div>\n        </mat-card-actions>\n    </mat-card>\n</ng-container>\n"
 
 /***/ }),
 
@@ -409,7 +412,7 @@ var EventComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <div class=\"events-list\">\n    <mat-card *ngFor=\"let event of events\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster ? event.poster: '../assets/images/noimage.png'}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"add_to_favorite\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <button mat-icon-button (click)=\"openDialog()\">\n    <mat-icon>filter_list</mat-icon>\n  </button>\n\n  <div class=\"events-list\">\n\n    <mat-card *ngFor=\"let event of events | filter : categories\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster ? event.poster: '../assets/images/noimage.png'}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"event_price\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
 
 /***/ }),
 
@@ -436,6 +439,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventsListComponent", function() { return EventsListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
+/* harmony import */ var _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/filter/filter.component */ "./src/app/components/filter/filter.component.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -447,9 +452,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var EventsListComponent = /** @class */ (function () {
-    function EventsListComponent(eventsService) {
+    function EventsListComponent(eventsService, dialog) {
         this.eventsService = eventsService;
+        this.dialog = dialog;
     }
     EventsListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -463,6 +471,16 @@ var EventsListComponent = /** @class */ (function () {
                 _this.eventsService.setEventsStorage('events', _this.events);
             });
         }
+    };
+    EventsListComponent.prototype.openDialog = function () {
+        var _this = this;
+        var dialogRef = this.dialog.open(_components_filter_filter_component__WEBPACK_IMPORTED_MODULE_2__["FilterComponent"], {
+            width: '350px',
+            data: { categories: [] }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            _this.categories = result;
+        });
     };
     EventsListComponent.prototype.getEvent = function (id) {
         var _this = this;
@@ -481,7 +499,8 @@ var EventsListComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./events-list.component.html */ "./src/app/components/events-list/events-list.component.html"),
             styles: [__webpack_require__(/*! ./events-list.component.scss */ "./src/app/components/events-list/events-list.component.scss")]
         }),
-        __metadata("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_1__["EventsService"]])
+        __metadata("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_1__["EventsService"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
     ], EventsListComponent);
     return EventsListComponent;
 }());
@@ -592,7 +611,7 @@ var EventsMapComponent = /** @class */ (function () {
             (function (marker) {
                 var mark = new google.maps.Marker({ position: new google.maps.LatLng(marker.lat, marker.lng) });
                 var infowindow = new google.maps.InfoWindow({
-                    content: '<a href="/event/' + marker.id + '">' + marker.title + '</a>'
+                    content: '<a href="/#/event/' + marker.id + '">' + marker.title + '</a>'
                 });
                 infowindow.open(self.map, mark);
                 mark.setMap(self.map);
@@ -636,7 +655,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n    <div class=\"events-list\">\n      <ng-container *ngFor=\"let event of events\">\n        <mat-card *ngIf=\"event.is_favorite\" class=\"mat-card\">\n          <mat-card-header>\n            <div mat-card-avatar style.background-image=\"url({{event.poster}})\" class=\"mat-card-avatar\"></div>\n            <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n          </mat-card-header>\n    \n          <div class=\"mat-card-date\">\n              <mat-icon>event</mat-icon>\n              <span>{{event.start_at}} - {{event.end_at}}</span>\n    \n              <mat-icon>place</mat-icon>\n              <span>{{event.venue}}</span>\n          </div>\n    \n          <p>{{event.description}}</p>\n          \n          <mat-card-actions>\n            <div class=\"add_to_favorite\">\n              <mat-icon>local_play</mat-icon>\n              <span>{{event.price}}</span>\n            </div>\n            <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n              <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n              {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n            </div>\n          </mat-card-actions>\n        </mat-card>\n      </ng-container>\n    </div>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n    <div class=\"events-list\">\n      <ng-container *ngFor=\"let event of events\">\n        <mat-card *ngIf=\"event.is_favorite\" class=\"mat-card\">\n          <mat-card-header>\n            <div mat-card-avatar style.background-image=\"url({{event.poster}})\" class=\"mat-card-avatar\"></div>\n            <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n          </mat-card-header>\n    \n          <div class=\"mat-card-date\">\n              <mat-icon>event</mat-icon>\n              <span>{{event.start_at}} - {{event.end_at}}</span>\n    \n              <mat-icon>place</mat-icon>\n              <span>{{event.venue}}</span>\n          </div>\n    \n          <p>{{event.description}}</p>\n          \n          <mat-card-actions>\n            <div class=\"event_price\">\n              <mat-icon>local_play</mat-icon>\n              <span>{{event.price}}</span>\n            </div>\n            <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n              <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n              {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n            </div>\n          </mat-card-actions>\n        </mat-card>\n      </ng-container>\n    </div>\n</ng-container>"
 
 /***/ }),
 
@@ -725,7 +744,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!categories\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"categories\">\n    <h2>Select category:</h2>\n    <form #filterForm=\"ngForm\" (ngSubmit)=\"setFilter()\">\n        <div *ngFor=\"let category of categories\">\n            <mat-checkbox name=\"{{category.title}}\" [checked]=\"category.checked\" #checked>\n                {{category.title}}\n            </mat-checkbox>\n        </div>\n        <button mat-raised-button (click)=\"cancel()\">Cancel</button>\n        <button mat-raised-button color=\"primary\" type=\"submit\">Ok</button>\n    </form>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!categories\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"categories\">\n    <h2>Select category:</h2>\n    <form #filterForm=\"ngForm\" (ngSubmit)=\"setFilter()\">\n        <div *ngFor=\"let category of categories\">\n            <mat-checkbox name=\"{{category.title}}\" [(ngModel)]=\"category.checked\" #checked>\n                {{category.title}}\n            </mat-checkbox>\n        </div>\n        <button mat-raised-button (click)=\"cancel()\">Cancel</button>\n        <button mat-raised-button color=\"primary\" type=\"submit\">Ok</button>\n    </form>\n</ng-container>"
 
 /***/ }),
 
@@ -810,7 +829,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav mat-tab-nav-bar color=\"primary\" backgroundColor=\"primary\">\n  <a routerLink=\"/\" mat-tab-link disabled>EVENTS</a>\n  <a routerLink=\"/events\" routerLinkActive #list=\"routerLinkActive\" [active]=\"list.isActive\" mat-tab-link>\n    <mat-icon active=\"true\">list</mat-icon>\n  </a>\n  <a routerLink=\"/map\" routerLinkActive #location_on=\"routerLinkActive\" [active]=\"location_on.isActive\" mat-tab-link>\n    <mat-icon>location_on</mat-icon>\n  </a>\n  <a routerLink=\"/favorites\" routerLinkActive #start_rate=\"routerLinkActive\" [active]=\"start_rate.isActive\" mat-tab-link>\n    <mat-icon>start_rate</mat-icon>\n  </a>\n  <a (click)=\"openDialog()\" mat-tab-link>\n    <mat-icon>filter_list</mat-icon>\n  </a>\n</nav>"
+module.exports = "<nav mat-tab-nav-bar color=\"primary\" backgroundColor=\"primary\">\n  <a routerLink=\"/\" mat-tab-link disabled>EVENTS</a>\n  <a routerLink=\"/events\" routerLinkActive #list=\"routerLinkActive\" [active]=\"list.isActive\" mat-tab-link>\n    <mat-icon active=\"true\">list</mat-icon>\n  </a>\n  <a routerLink=\"/map\" routerLinkActive #location_on=\"routerLinkActive\" [active]=\"location_on.isActive\" mat-tab-link>\n    <mat-icon>location_on</mat-icon>\n  </a>\n  <a routerLink=\"/favorites\" routerLinkActive #start_rate=\"routerLinkActive\" [active]=\"start_rate.isActive\" mat-tab-link>\n    <mat-icon>start_rate</mat-icon>\n  </a>\n</nav>"
 
 /***/ }),
 
@@ -825,8 +844,6 @@ module.exports = "<nav mat-tab-nav-bar color=\"primary\" backgroundColor=\"prima
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavComponent", function() { return NavComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/filter/filter.component */ "./src/app/components/filter/filter.component.ts");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -837,23 +854,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
-
 var NavComponent = /** @class */ (function () {
-    function NavComponent(dialog) {
-        this.dialog = dialog;
+    function NavComponent() {
     }
     NavComponent.prototype.ngOnInit = function () {
-    };
-    NavComponent.prototype.openDialog = function () {
-        var _this = this;
-        var dialogRef = this.dialog.open(_components_filter_filter_component__WEBPACK_IMPORTED_MODULE_1__["FilterComponent"], {
-            width: '350px',
-            data: { category: [] }
-        });
-        dialogRef.afterClosed().subscribe(function (result) {
-            _this.category = result;
-        });
     };
     NavComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -861,9 +865,46 @@ var NavComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./nav.component.html */ "./src/app/components/nav/nav.component.html"),
             styles: [__webpack_require__(/*! ./nav.component.css */ "./src/app/components/nav/nav.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]])
+        __metadata("design:paramtypes", [])
     ], NavComponent);
     return NavComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/pipes/filter.pipe.ts":
+/*!**************************************!*\
+  !*** ./src/app/pipes/filter.pipe.ts ***!
+  \**************************************/
+/*! exports provided: FilterPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterPipe", function() { return FilterPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var FilterPipe = /** @class */ (function () {
+    function FilterPipe() {
+    }
+    FilterPipe.prototype.transform = function (value, args) {
+        console.log(args);
+        return value;
+    };
+    FilterPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'filter'
+        })
+    ], FilterPipe);
+    return FilterPipe;
 }());
 
 

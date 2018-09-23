@@ -31,6 +31,7 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { EventComponent } from './components/event/event.component';
 import { AddComponent } from './components/add/add.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 const appRoutes: Routes = [
   { path: 'events', component: EventsListComponent },
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
     FavoritesComponent,
     FilterComponent,
     EventComponent,
-    AddComponent
+    AddComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatInputModule,
     MatSelectModule,
-    RouterModule.forRoot( appRoutes ,  { useHash: true })
+    RouterModule.forRoot( appRoutes )
   ],
   providers: [
     EventsService,
