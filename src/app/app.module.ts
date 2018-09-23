@@ -17,7 +17,12 @@ import {
   MatCheckboxModule,
   MatCardModule,
   MatDialogModule,
-  MatButtonModule
+  MatButtonModule,
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatNativeDateModule,
+  MatInputModule,
+  MatSelectModule
 } from '@angular/material';
 
 import { EventsListComponent } from './components/events-list/events-list.component';
@@ -25,6 +30,7 @@ import { EventsMapComponent } from './components/events-map/events-map.component
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { EventComponent } from './components/event/event.component';
+import { AddComponent } from './components/add/add.component';
 
 const appRoutes: Routes = [
   { path: 'events', component: EventsListComponent },
@@ -32,6 +38,7 @@ const appRoutes: Routes = [
   { path: 'map', component: EventsMapComponent },
   { path: 'favorites', component: FavoritesComponent },
   { path: 'filter', component: FilterComponent },
+  { path: 'add', component: AddComponent },
   { path: '', redirectTo: '/events', pathMatch: 'full' },
   // { path: '**', component: PageNotFoundComponent }
 ];
@@ -44,7 +51,8 @@ const appRoutes: Routes = [
     EventsMapComponent,
     FavoritesComponent,
     FilterComponent,
-    EventComponent
+    EventComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,
@@ -60,10 +68,16 @@ const appRoutes: Routes = [
     MatCardModule,
     MatDialogModule,
     MatButtonModule,
-    RouterModule.forRoot( appRoutes)
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatSelectModule,
+    RouterModule.forRoot( appRoutes ,  { useHash: true })
   ],
   providers: [
-    EventsService
+    EventsService,
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent]
 })

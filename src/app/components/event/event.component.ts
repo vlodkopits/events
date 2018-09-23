@@ -28,10 +28,16 @@ export class EventComponent implements OnInit {
   }
 
   getEvent(id: string) {
-    this.eventsService.getEvents().subscribe(events => {
-      this.events = events;
-      return this.event = events.find(event => event.id === id);
-    });
+    const isEventsStorage = this.eventsService.getEventsStorage('events');
+    if (isEventsStorage) {
+      this.events = isEventsStorage;
+    } else {
+      this.eventsService.getEvents().subscribe(events => {
+        this.events = events;
+        this.eventsService.setEventsStorage('events', this.events);
+      });
+    }
+    return this.event = this.events.find(event => event.id === id);
   }
 
   addToFavorite(id) {

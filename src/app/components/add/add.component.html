@@ -1,0 +1,86 @@
+  <mat-card class="mat-card">
+      <mat-card-header>
+          <h1>Add event:</h1>
+      </mat-card-header>
+      <div [hidden]="!submitted">Event has been added</div>
+      <div [hidden]="submitted">
+        <form (ngSubmit)="add()" #addForm="ngForm">
+          <mat-form-field class="add-input-full">
+            <input matInput 
+                  placeholder="Event title" 
+                  [(ngModel)]="event.title"
+                  name="title"
+                  required
+                  #title>
+          </mat-form-field>
+
+          <mat-form-field class="add-input-full">
+            <textarea matInput 
+                      placeholder="Event description" 
+                      [(ngModel)]="event.description" 
+                      name="description"
+                      required 
+                      #description>
+            </textarea>
+          </mat-form-field>
+
+          <mat-form-field class="add-input-full">
+            <mat-select placeholder="Select category" [(ngModel)]="event.category"  name="category" #category required>
+              <mat-option *ngFor="let category of categories" value="{{category.title}}">
+                {{category.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="add-input-full">
+              <input matInput 
+                        placeholder="Input url of image" 
+                        [(ngModel)]="event.poster" 
+                        name="description" 
+                        #poster/>
+            </mat-form-field>
+
+          <mat-form-field class="add-input-half">
+            <input matInput 
+                  [matDatepicker]="picker1" 
+                  placeholder="Choose start date" 
+                  [(ngModel)]="event.start_at" 
+                  name="start-date" 
+                  required
+                  #start_date />
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="add-input-half">
+            <input matInput 
+                  [matDatepicker]="picker" 
+                  placeholder="Choose end date" 
+                  [(ngModel)]="event.end_at" 
+                  name="end-date"
+                  required 
+                  #end_date />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="add-input-full">
+            <input matInput 
+                  placeholder="Event venue" 
+                  [(ngModel)]="event.venue" 
+                  name="venue"
+                  required 
+                  #venue />
+          </mat-form-field>
+
+          <mat-form-field class="add-input-full">
+            <input matInput placeholder="Ticket price" value="" [(ngModel)]="event.price" name="price" #price>
+          </mat-form-field>
+        
+        <mat-card-actions>
+          <button mat-raised-button routerLink="/events">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!addForm.form.valid">Add</button>
+        </mat-card-actions>
+      </form>
+    </div>
+  </mat-card>

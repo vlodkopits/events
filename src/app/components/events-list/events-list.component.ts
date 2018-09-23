@@ -22,6 +22,7 @@ export class EventsListComponent implements OnInit {
     } else {
       this.eventsService.getEvents().subscribe(events => {
         this.events = events;
+        this.eventsService.setEventsStorage('events', this.events);
       });
     }
   }

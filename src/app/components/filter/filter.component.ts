@@ -24,8 +24,8 @@ export class FilterComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  setFilter(data) { 
-    this.eventsService.filterEvents(data);
+  setFilter() {
+    this.eventsService.filterEvents(this.categories);
     this.cancel();
   }
 

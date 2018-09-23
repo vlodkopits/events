@@ -5,7 +5,7 @@
   <div class="events-list">
     <mat-card *ngFor="let event of events" class="mat-card">
       <mat-card-header>
-        <div mat-card-avatar style.background-image="url({{event.poster}})" class="mat-card-avatar"></div>
+        <div mat-card-avatar style.background-image="url({{event.poster ? event.poster: '../assets/images/noimage.png'}})" class="mat-card-avatar"></div>
         <h1 routerLink="/event/{{event.id}}">{{event.title}}</h1>
       </mat-card-header>
 

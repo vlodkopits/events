@@ -24,19 +24,27 @@ export class EventsService {
     return JSON.parse(localStorage.getItem(key));
   }
 
+  addEventStorage(key, value) {
+    let old = this.getEventsStorage(key);
+    if (old === null) old = "";
+    old.push(value);
+    localStorage.setItem(key, JSON.stringify(old));
+  }
+
   updateEventsStorage(key, value){
     localStorage.removeItem(key);
     localStorage.setItem(key, JSON.stringify(value));
   }
 
   filterEvents(data){
-    this.categories.map( cat => {
-      cat.checked = data[cat.title].value
-    });
-    this.getEventsStorage('events').map(event => {
-      this.categories.filter(cat => cat.checked === true);
-      event.category = this.categories[0];
-      console.log(this.categories.filter(cat => cat.checked === true));
-    });
+    console.log(data);
+  }
+
+  addEvent(data) {
+    this.addEventStorage('events', data);
+  }
+
+  setEventID() {
+    return Math.random().toString(36).substr(2, 16);
   }
 }
