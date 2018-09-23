@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".event-add-btn {\n    position: fixed;\n    bottom: 20px;\n    right: 20px;\n}"
 
 /***/ }),
 
@@ -41,7 +41,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<router-outlet></router-outlet>"
+module.exports = "<app-nav></app-nav>\n<router-outlet></router-outlet>\n<button routerLink=\"/add\" mat-fab color=\"primary\" class=\"event-add-btn\">\n    <mat-icon>add</mat-icon>\n</button>"
 
 /***/ }),
 
@@ -138,6 +138,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_favorites_favorites_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/favorites/favorites.component */ "./src/app/components/favorites/favorites.component.ts");
 /* harmony import */ var _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/filter/filter.component */ "./src/app/components/filter/filter.component.ts");
 /* harmony import */ var _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/event/event.component */ "./src/app/components/event/event.component.ts");
+/* harmony import */ var _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/add/add.component */ "./src/app/components/add/add.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -159,12 +160,14 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var appRoutes = [
     { path: 'events', component: _components_events_list_events_list_component__WEBPACK_IMPORTED_MODULE_10__["EventsListComponent"] },
     { path: 'event/:id', component: _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__["EventComponent"] },
     { path: 'map', component: _components_events_map_events_map_component__WEBPACK_IMPORTED_MODULE_11__["EventsMapComponent"] },
     { path: 'favorites', component: _components_favorites_favorites_component__WEBPACK_IMPORTED_MODULE_12__["FavoritesComponent"] },
     { path: 'filter', component: _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_13__["FilterComponent"] },
+    { path: 'add', component: _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__["AddComponent"] },
     { path: '', redirectTo: '/events', pathMatch: 'full' },
 ];
 var AppModule = /** @class */ (function () {
@@ -179,7 +182,8 @@ var AppModule = /** @class */ (function () {
                 _components_events_map_events_map_component__WEBPACK_IMPORTED_MODULE_11__["EventsMapComponent"],
                 _components_favorites_favorites_component__WEBPACK_IMPORTED_MODULE_12__["FavoritesComponent"],
                 _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_13__["FilterComponent"],
-                _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__["EventComponent"]
+                _components_event_event_component__WEBPACK_IMPORTED_MODULE_14__["EventComponent"],
+                _components_add_add_component__WEBPACK_IMPORTED_MODULE_15__["AddComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -195,15 +199,108 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatCardModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatDialogModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatButtonModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes)
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatDatepickerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatFormFieldModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatNativeDateModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatSelectModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes, { useHash: true })
             ],
             providers: [
-                _services_events_service__WEBPACK_IMPORTED_MODULE_7__["EventsService"]
+                _services_events_service__WEBPACK_IMPORTED_MODULE_7__["EventsService"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatNativeDateModule"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/add/add.component.css":
+/*!**************************************************!*\
+  !*** ./src/app/components/add/add.component.css ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".add-input-full {\n    width: 100%;\n}\n\n.add-input-half {\n    margin: 0 10px 0 0;\n    width: 45%;\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/add/add.component.html":
+/*!***************************************************!*\
+  !*** ./src/app/components/add/add.component.html ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "  <mat-card class=\"mat-card\">\n      <mat-card-header>\n          <h1>Add event:</h1>\n      </mat-card-header>\n      <div [hidden]=\"!submitted\">Event has been added</div>\n      <div [hidden]=\"submitted\">\n        <form (ngSubmit)=\"add()\" #addForm=\"ngForm\">\n          <mat-form-field class=\"add-input-full\">\n            <input matInput \n                  placeholder=\"Event title\" \n                  [(ngModel)]=\"event.title\"\n                  name=\"title\"\n                  required\n                  #title>\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-full\">\n            <textarea matInput \n                      placeholder=\"Event description\" \n                      [(ngModel)]=\"event.description\" \n                      name=\"description\"\n                      required \n                      #description>\n            </textarea>\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-full\">\n            <mat-select placeholder=\"Select category\" [(ngModel)]=\"event.category\"  name=\"category\" #category required>\n              <mat-option *ngFor=\"let category of categories\" value=\"{{category.title}}\">\n                {{category.title}}\n              </mat-option>\n            </mat-select>\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-full\">\n              <input matInput \n                        placeholder=\"Input url of image\" \n                        [(ngModel)]=\"event.poster\" \n                        name=\"description\" \n                        #poster/>\n            </mat-form-field>\n\n          <mat-form-field class=\"add-input-half\">\n            <input matInput \n                  [matDatepicker]=\"picker1\" \n                  placeholder=\"Choose start date\" \n                  [(ngModel)]=\"event.start_at\" \n                  name=\"start-date\" \n                  required\n                  #start_date />\n            <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n            <mat-datepicker #picker1></mat-datepicker>\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-half\">\n            <input matInput \n                  [matDatepicker]=\"picker\" \n                  placeholder=\"Choose end date\" \n                  [(ngModel)]=\"event.end_at\" \n                  name=\"end-date\"\n                  required \n                  #end_date />\n            <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n            <mat-datepicker #picker></mat-datepicker>\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-full\">\n            <input matInput \n                  placeholder=\"Event venue\" \n                  [(ngModel)]=\"event.venue\" \n                  name=\"venue\"\n                  required \n                  #venue />\n          </mat-form-field>\n\n          <mat-form-field class=\"add-input-full\">\n            <input matInput placeholder=\"Ticket price\" value=\"\" [(ngModel)]=\"event.price\" name=\"price\" #price>\n          </mat-form-field>\n        \n        <mat-card-actions>\n          <button mat-raised-button routerLink=\"/events\">Cancel</button>\n          <button mat-raised-button color=\"primary\" type=\"submit\" [disabled]=\"!addForm.form.valid\">Add</button>\n        </mat-card-actions>\n      </form>\n    </div>\n  </mat-card>"
+
+/***/ }),
+
+/***/ "./src/app/components/add/add.component.ts":
+/*!*************************************************!*\
+  !*** ./src/app/components/add/add.component.ts ***!
+  \*************************************************/
+/*! exports provided: AddComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddComponent", function() { return AddComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _app_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app.constants */ "./src/app/app.constants.ts");
+/* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AddComponent = /** @class */ (function () {
+    function AddComponent(eventsService) {
+        this.eventsService = eventsService;
+        this.submitted = false;
+        this.categories = _app_constants__WEBPACK_IMPORTED_MODULE_1__["CATEGORIES"];
+        this.event = {
+            "id": null,
+            "title": "",
+            "description": "",
+            "category": "",
+            "venue": "",
+            "price": null,
+            "poster": "",
+            "start_at": "",
+            "end_at": "",
+            "is_favorite": false
+        };
+    }
+    AddComponent.prototype.ngOnInit = function () {
+    };
+    AddComponent.prototype.add = function () {
+        this.event.id = this.eventsService.setEventID();
+        this.eventsService.addEvent(this.event);
+        this.submitted = true;
+    };
+    AddComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-add',
+            template: __webpack_require__(/*! ./add.component.html */ "./src/app/components/add/add.component.html"),
+            styles: [__webpack_require__(/*! ./add.component.css */ "./src/app/components/add/add.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_events_service__WEBPACK_IMPORTED_MODULE_2__["EventsService"]])
+    ], AddComponent);
+    return AddComponent;
 }());
 
 
@@ -271,10 +368,17 @@ var EventComponent = /** @class */ (function () {
     };
     EventComponent.prototype.getEvent = function (id) {
         var _this = this;
-        this.eventsService.getEvents().subscribe(function (events) {
-            _this.events = events;
-            return _this.event = events.find(function (event) { return event.id === id; });
-        });
+        var isEventsStorage = this.eventsService.getEventsStorage('events');
+        if (isEventsStorage) {
+            this.events = isEventsStorage;
+        }
+        else {
+            this.eventsService.getEvents().subscribe(function (events) {
+                _this.events = events;
+                _this.eventsService.setEventsStorage('events', _this.events);
+            });
+        }
+        return this.event = this.events.find(function (event) { return event.id === id; });
     };
     EventComponent.prototype.addToFavorite = function (id) {
         var event = this.events.find(function (event) { return event.id === id; });
@@ -305,7 +409,7 @@ var EventComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <div class=\"events-list\">\n    <mat-card *ngFor=\"let event of events\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"add_to_favorite\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <div class=\"events-list\">\n    <mat-card *ngFor=\"let event of events\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster ? event.poster: '../assets/images/noimage.png'}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"add_to_favorite\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
 
 /***/ }),
 
@@ -356,6 +460,7 @@ var EventsListComponent = /** @class */ (function () {
         else {
             this.eventsService.getEvents().subscribe(function (events) {
                 _this.events = events;
+                _this.eventsService.setEventsStorage('events', _this.events);
             });
         }
     };
@@ -620,7 +725,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!categories\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"categories\">\n    <h2>Select category:</h2>\n    <form #filterForm=\"ngForm\" (ngSubmit)=\"setFilter(filterForm.form.controls)\">\n        <div *ngFor=\"let category of categories\">\n            <mat-checkbox name=\"{{category.title}}\" [(ngModel)]=\"category.checked\">{{category.title}}</mat-checkbox>\n        </div>\n        <button mat-raised-button (click)=\"cancel()\">Cancel</button>\n        <button mat-raised-button color=\"primary\" type=\"submit\">Ok</button>\n    </form>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!categories\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"categories\">\n    <h2>Select category:</h2>\n    <form #filterForm=\"ngForm\" (ngSubmit)=\"setFilter()\">\n        <div *ngFor=\"let category of categories\">\n            <mat-checkbox name=\"{{category.title}}\" [checked]=\"category.checked\" #checked>\n                {{category.title}}\n            </mat-checkbox>\n        </div>\n        <button mat-raised-button (click)=\"cancel()\">Cancel</button>\n        <button mat-raised-button color=\"primary\" type=\"submit\">Ok</button>\n    </form>\n</ng-container>"
 
 /***/ }),
 
@@ -666,8 +771,8 @@ var FilterComponent = /** @class */ (function () {
     FilterComponent.prototype.cancel = function () {
         this.dialogRef.close();
     };
-    FilterComponent.prototype.setFilter = function (data) {
-        this.eventsService.filterEvents(data);
+    FilterComponent.prototype.setFilter = function () {
+        this.eventsService.filterEvents(this.categories);
         this.cancel();
     };
     FilterComponent = __decorate([
@@ -806,20 +911,25 @@ var EventsService = /** @class */ (function () {
     EventsService.prototype.getEventsStorage = function (key) {
         return JSON.parse(localStorage.getItem(key));
     };
+    EventsService.prototype.addEventStorage = function (key, value) {
+        var old = this.getEventsStorage(key);
+        if (old === null)
+            old = "";
+        old.push(value);
+        localStorage.setItem(key, JSON.stringify(old));
+    };
     EventsService.prototype.updateEventsStorage = function (key, value) {
         localStorage.removeItem(key);
         localStorage.setItem(key, JSON.stringify(value));
     };
     EventsService.prototype.filterEvents = function (data) {
-        var _this = this;
-        this.categories.map(function (cat) {
-            cat.checked = data[cat.title].value;
-        });
-        this.getEventsStorage('events').map(function (event) {
-            _this.categories.filter(function (cat) { return cat.checked === true; });
-            event.category = _this.categories[0];
-            console.log(_this.categories.filter(function (cat) { return cat.checked === true; }));
-        });
+        console.log(data);
+    };
+    EventsService.prototype.addEvent = function (data) {
+        this.addEventStorage('events', data);
+    };
+    EventsService.prototype.setEventID = function () {
+        return Math.random().toString(36).substr(2, 16);
     };
     EventsService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
