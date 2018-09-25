@@ -623,7 +623,7 @@ var EventsMapComponent = /** @class */ (function () {
             (function (marker) {
                 var mark = new google.maps.Marker({ position: new google.maps.LatLng(marker.lat, marker.lng) });
                 var infowindow = new google.maps.InfoWindow({
-                    content: '<a href="./#/event/' + marker.id + '">' + marker.title + '</a>'
+                    content: '<a href="/events/#/event/' + marker.id + '">' + marker.title + '</a>'
                 });
                 infowindow.open(self.map, mark);
                 mark.setMap(self.map);
