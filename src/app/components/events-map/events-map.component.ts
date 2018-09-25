@@ -78,7 +78,7 @@ export class EventsMapComponent implements OnInit {
       (function (marker) {
         let mark = new google.maps.Marker({ position: new google.maps.LatLng(marker.lat, marker.lng) });
         let infowindow = new google.maps.InfoWindow({
-          content: '<a href="/#/event/' + marker.id + '">' + marker.title + '</a>'
+          content: '<a href="./#/event/' + marker.id + '">' + marker.title + '</a>'
             
         });
         infowindow.open(self.map, mark);
