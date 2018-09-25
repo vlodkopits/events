@@ -75,7 +75,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatInputModule,
     MatSelectModule,
-    RouterModule.forRoot( appRoutes )
+    RouterModule.forRoot( appRoutes , { useHash: true })
   ],
   providers: [
     EventsService,

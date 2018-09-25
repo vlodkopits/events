@@ -207,7 +207,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatNativeDateModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_9__["MatSelectModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes)
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(appRoutes, { useHash: true })
             ],
             providers: [
                 _services_events_service__WEBPACK_IMPORTED_MODULE_7__["EventsService"],
