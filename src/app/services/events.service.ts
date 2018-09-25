@@ -37,7 +37,7 @@ export class EventsService {
   }
 
   filterEvents(data){
-    console.log(data);
+    return data;
   }
 
   addEvent(data) {

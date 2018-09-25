@@ -412,7 +412,7 @@ var EventComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <button mat-icon-button (click)=\"openDialog()\">\n    <mat-icon>filter_list</mat-icon>\n  </button>\n\n  <div class=\"events-list\">\n\n    <mat-card *ngFor=\"let event of events | filter : categories\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster ? event.poster: '../assets/images/noimage.png'}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"event_price\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
+module.exports = "<ng-container *ngIf=\"!events\">\n    <mat-progress-spinner></mat-progress-spinner>\n</ng-container>\n<ng-container *ngIf=\"events\">\n  <button mat-icon-button (click)=\"openDialog()\">\n    <mat-icon>filter_list</mat-icon>\n  </button>\n  <div class=\"events-list\">\n\n    <mat-card *ngFor=\"let event of events | filter : filterCat\" class=\"mat-card\">\n      <mat-card-header>\n        <div mat-card-avatar style.background-image=\"url({{event.poster ? event.poster: '../assets/images/noimage.png'}})\" class=\"mat-card-avatar\"></div>\n        <h1 routerLink=\"/event/{{event.id}}\">{{event.title}}</h1>\n      </mat-card-header>\n\n      <div class=\"mat-card-date\">\n          <mat-icon>event</mat-icon>\n          <span>{{event.start_at}} - {{event.end_at}}</span>\n\n          <mat-icon>place</mat-icon>\n          <span>{{event.venue}}</span>\n      </div>\n\n      <p>{{event.description}}</p>\n      \n      <mat-card-actions>\n        <div class=\"event_price\">\n          <mat-icon>local_play</mat-icon>\n          <span>{{event.price}}</span>\n        </div>\n        <div class=\"add_to_favorite\" (click)=\"addToFavorite(event.id)\">\n          <mat-icon>{{event.is_favorite?'star':'star_border'}}</mat-icon>\n          {{event.is_favorite?'Remove from favorites':'Add to favorites'}}\n        </div>\n      </mat-card-actions>\n    </mat-card>\n  </div>\n</ng-container>"
 
 /***/ }),
 
@@ -441,6 +441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
 /* harmony import */ var _components_filter_filter_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/filter/filter.component */ "./src/app/components/filter/filter.component.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _app_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../app.constants */ "./src/app/app.constants.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -454,10 +455,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var EventsListComponent = /** @class */ (function () {
     function EventsListComponent(eventsService, dialog) {
         this.eventsService = eventsService;
         this.dialog = dialog;
+        this.categories = _app_constants__WEBPACK_IMPORTED_MODULE_4__["CATEGORIES"];
+        this.filterCat = ['concert', 'festival', 'exhibition', 'presentation'];
     }
     EventsListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -476,10 +480,18 @@ var EventsListComponent = /** @class */ (function () {
         var _this = this;
         var dialogRef = this.dialog.open(_components_filter_filter_component__WEBPACK_IMPORTED_MODULE_2__["FilterComponent"], {
             width: '350px',
-            data: { categories: [] }
+            data: this.categories
+        });
+        var sub = dialogRef.componentInstance.onAdd.subscribe(function (data) {
+            if (data.length) {
+                _this.filterCat = data;
+            }
+            else {
+                _this.filterCat = ['concert', 'festival', 'exhibition', 'presentation'];
+            }
         });
         dialogRef.afterClosed().subscribe(function (result) {
-            _this.categories = result;
+            sub.unsubscribe();
         });
     };
     EventsListComponent.prototype.getEvent = function (id) {
@@ -761,7 +773,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var _services_events_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/events.service */ "./src/app/services/events.service.ts");
-/* harmony import */ var _app_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../app.constants */ "./src/app/app.constants.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -777,21 +788,24 @@ var __param = (undefined && undefined.__param) || function (paramIndex, decorato
 
 
 
-
 var FilterComponent = /** @class */ (function () {
     function FilterComponent(dialogRef, eventsService, data) {
         this.dialogRef = dialogRef;
         this.eventsService = eventsService;
         this.data = data;
-        this.categories = _app_constants__WEBPACK_IMPORTED_MODULE_3__["CATEGORIES"];
+        this.onAdd = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FilterComponent.prototype.ngOnInit = function () {
+        this.categories = this.data;
     };
     FilterComponent.prototype.cancel = function () {
         this.dialogRef.close();
     };
     FilterComponent.prototype.setFilter = function () {
-        this.eventsService.filterEvents(this.categories);
+        this.categories = this.eventsService.filterEvents(this.categories);
+        var filter = this.categories.filter(function (cat) { return cat.checked === true; });
+        this.filterCat = filter.map(function (cat) { return cat.title; });
+        this.onAdd.emit(this.filterCat);
         this.cancel();
     };
     FilterComponent = __decorate([
@@ -896,8 +910,9 @@ var FilterPipe = /** @class */ (function () {
     function FilterPipe() {
     }
     FilterPipe.prototype.transform = function (value, args) {
-        console.log(args);
-        return value;
+        return value.filter(function (event) {
+            return args.includes(event.category);
+        });
     };
     FilterPipe = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
@@ -964,7 +979,7 @@ var EventsService = /** @class */ (function () {
         localStorage.setItem(key, JSON.stringify(value));
     };
     EventsService.prototype.filterEvents = function (data) {
-        console.log(data);
+        return data;
     };
     EventsService.prototype.addEvent = function (data) {
         this.addEventStorage('events', data);

@@ -3,6 +3,7 @@ import { EventsService } from '../../services/events.service';
 import { Event } from '../../models/event';
 import { FilterComponent } from '../../components/filter/filter.component';
 import { MatDialog } from '@angular/material';
+import { CATEGORIES } from '../../app.constants';
 
 @Component({
   selector: 'app-events-list',
@@ -12,7 +13,8 @@ import { MatDialog } from '@angular/material';
 export class EventsListComponent implements OnInit {
   public events: Event[];
   public event: Event;
-  public categories;
+  public categories = CATEGORIES;
+  public filterCat = ['concert', 'festival', 'exhibition', 'presentation'];
 
   constructor(
     private eventsService: EventsService,
@@ -34,11 +36,18 @@ export class EventsListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(FilterComponent, {
       width: '350px',
-      data: { categories: [] }
+      data: this.categories 
+    });
+    const sub = dialogRef.componentInstance.onAdd.subscribe((data) => {
+      if (data.length) {
+        this.filterCat = data;
+      } else {
+        this.filterCat = ['concert', 'festival', 'exhibition', 'presentation'];
+      }      
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.categories = result;
+      sub.unsubscribe();
     });
   }
 

@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { EventsService } from '../../services/events.service';
-import { CATEGORIES } from '../../app.constants';
 
 @Component({
   selector: 'app-filter',
@@ -9,7 +8,9 @@ import { CATEGORIES } from '../../app.constants';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
-  categories = CATEGORIES;
+  categories: any;
+  filterCat; any;
+  onAdd = new EventEmitter();
 
   constructor(
     public dialogRef: MatDialogRef<FilterComponent>,
@@ -18,6 +19,7 @@ export class FilterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.categories = this.data;
   }
 
   cancel(): void {
@@ -25,7 +27,10 @@ export class FilterComponent implements OnInit {
   }
 
   setFilter() {
-    this.eventsService.filterEvents(this.categories);
+    this.categories = this.eventsService.filterEvents(this.categories);
+    let filter = this.categories.filter( cat => cat.checked === true);
+    this.filterCat = filter.map(cat => cat.title);
+    this.onAdd.emit(this.filterCat);
     this.cancel();
   }
 

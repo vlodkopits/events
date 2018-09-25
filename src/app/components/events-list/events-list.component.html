@@ -5,10 +5,9 @@
   <button mat-icon-button (click)="openDialog()">
     <mat-icon>filter_list</mat-icon>
   </button>
-
   <div class="events-list">
 
-    <mat-card *ngFor="let event of events | filter : categories" class="mat-card">
+    <mat-card *ngFor="let event of events | filter : filterCat" class="mat-card">
       <mat-card-header>
         <div mat-card-avatar style.background-image="url({{event.poster ? event.poster: '../assets/images/noimage.png'}})" class="mat-card-avatar"></div>
         <h1 routerLink="/event/{{event.id}}">{{event.title}}</h1>
